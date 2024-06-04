@@ -16,9 +16,9 @@ const Calculator: React.FC = () => {
           setResult('')
           setOperation('')
         } else {
-          setDisplay(evalResult.toString());
-          setResult(evalResult.toString());
-          setOperation(evalResult.toString());
+          setDisplay(evalResult.toString())
+          setResult(evalResult.toString())
+          setOperation(evalResult.toString())
         }
       } catch (error) {
         setDisplay('ERROR')
@@ -52,7 +52,7 @@ const Calculator: React.FC = () => {
         setShouldClear(false)
       } else {
         if (display.length >= 9) {
-          return;
+          return
         }
         setDisplay((prevDisplay) => prevDisplay + value)
         setOperation((prevOperation) => prevOperation + value)
