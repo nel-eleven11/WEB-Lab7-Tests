@@ -4,13 +4,13 @@ import Button from './button'
 const Calculator: React.FC = () => {
   const [result, setResult] = useState<string>('')
   const [operation, setOperation] = useState<string>('')
-  const [display, setDisplay] = useState<string>('')
+  const [display, setDisplay] = useState<string>('') // Nuevo estado para el display
   const [shouldClear, setShouldClear] = useState<boolean>(false)
 
   const handleButtonClick = (value: string) => {
     if (value === '=') {
       try {
-        const evalResult = eval(operation);
+        const evalResult = eval(operation)
         if (evalResult < 0 || evalResult > 999999999) {
           setDisplay('ERROR')
           setResult('')
@@ -29,6 +29,15 @@ const Calculator: React.FC = () => {
       setDisplay('')
       setResult('')
       setOperation('')
+    } else if (value === '+/-') {
+      if (display) {
+        const newDisplay = display.startsWith('-') ? display.slice(1) : '-' + display
+        const newOperation = operation.startsWith('-') ? operation.slice(1) : '-' + operation
+        if (newDisplay.length <= 9) {
+          setDisplay(newDisplay)
+          setOperation(newOperation)
+        }
+      }
     } else if (['+', '-', '*', '/'].includes(value)) {
       if (operation && !shouldClear) {
         try {
@@ -47,7 +56,7 @@ const Calculator: React.FC = () => {
       setShouldClear(true)
     } else {
       if (shouldClear) {
-        setDisplay(value);
+        setDisplay(value)
         setOperation(operation + value)
         setShouldClear(false)
       } else {
@@ -75,7 +84,7 @@ const Calculator: React.FC = () => {
         readOnly
       />
       <div className="grid grid-cols-4 gap-2">
-        {['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '=', '+', 'C'].map((btn) => (
+        {['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '=', '+', '+/-', 'C'].map((btn) => (
           <Button key={btn} label={btn} onClick={handleButtonClick} />
         ))}
       </div>
