@@ -1,34 +1,33 @@
 import React, { useState } from 'react';
 import Button from './button';
 
-const calculator: React.FC = () => {
+const Calculator: React.FC = () => {
   const [result, setResult] = useState<string>('');
   const [operation, setOperation] = useState<string>('');
 
   const handleButtonClick = (value: string) => {
     if (value === '=') {
       try {
-        const evalOperation = eval(operation).toString();
-        setResult(evalOperation);
-        setOperation(evalOperation);
+        const evalResult = eval(operation);
+        if (evalResult < 0 || evalResult > 999999999) {
+          setResult('ERROR');
+        } else {
+          setResult(evalResult.toString());
+          setOperation(evalResult.toString());
+        }
       } catch (error) {
-        setResult('error');
+        setResult('ERROR');
       }
     } else if (value === 'C') {
       setResult('');
       setOperation('');
     } else {
+      if (operation.length >= 9) {
+        return;
+      }
       setOperation((prevOperation) => prevOperation + value);
     }
   };
-
-  const buttons = [
-    '7', '8', '9', '/',
-    '4', '5', '6', '*',
-    '1', '2', '3', '-',
-    '0', '.', '=', '+',
-    'C'
-  ];
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg">
@@ -45,7 +44,7 @@ const calculator: React.FC = () => {
         readOnly
       />
       <div className="grid grid-cols-4 gap-2">
-        {buttons.map((btn) => (
+        {['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '=', '+', 'C'].map((btn) => (
           <Button key={btn} label={btn} onClick={handleButtonClick} />
         ))}
       </div>
@@ -53,4 +52,4 @@ const calculator: React.FC = () => {
   );
 };
 
-export default calculator;
+export default Calculator;
