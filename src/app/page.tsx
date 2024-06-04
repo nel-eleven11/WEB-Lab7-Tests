@@ -8,5 +8,5 @@ export default function Home() {
       <h1 className="text-4xl font-bold mb-10">Calculadora</h1>
       <Calculator />
     </main>
-  );
+  )
 }
