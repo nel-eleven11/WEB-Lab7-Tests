@@ -4,7 +4,7 @@ import Button from './button'
 const Calculator: React.FC = () => {
   const [result, setResult] = useState<string>('')
   const [operation, setOperation] = useState<string>('')
-  const [display, setDisplay] = useState<string>('') // Nuevo estado para el display
+  const [display, setDisplay] = useState<string>('') 
   const [shouldClear, setShouldClear] = useState<boolean>(false)
 
   const handleButtonClick = (value: string) => {
