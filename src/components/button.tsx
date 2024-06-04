@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
 interface ButtonProps {
-  label: string;
-  onClick: (value: string) => void;
+  label: string
+  onClick: (value: string) => void
 }
 
 const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
@@ -16,4 +16,4 @@ const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
   );
 };
 
-export default Button;
+export default Button

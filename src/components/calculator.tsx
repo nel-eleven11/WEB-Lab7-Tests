@@ -1,40 +1,71 @@
-import React, { useState } from 'react';
-import Button from './button';
+import React, { useState } from 'react'
+import Button from './button'
 
 const Calculator: React.FC = () => {
-  const [result, setResult] = useState<string>('');
-  const [operation, setOperation] = useState<string>('');
+  const [result, setResult] = useState<string>('')
+  const [operation, setOperation] = useState<string>('')
+  const [display, setDisplay] = useState<string>('')
+  const [shouldClear, setShouldClear] = useState<boolean>(false)
 
   const handleButtonClick = (value: string) => {
     if (value === '=') {
       try {
         const evalResult = eval(operation);
         if (evalResult < 0 || evalResult > 999999999) {
-          setResult('ERROR');
+          setDisplay('ERROR')
+          setResult('')
+          setOperation('')
         } else {
+          setDisplay(evalResult.toString());
           setResult(evalResult.toString());
           setOperation(evalResult.toString());
         }
       } catch (error) {
-        setResult('ERROR');
+        setDisplay('ERROR')
+        setResult('')
+        setOperation('')
       }
     } else if (value === 'C') {
-      setResult('');
-      setOperation('');
-    } else {
-      if (operation.length >= 9) {
-        return;
+      setDisplay('')
+      setResult('')
+      setOperation('')
+    } else if (['+', '-', '*', '/'].includes(value)) {
+      if (operation && !shouldClear) {
+        try {
+          const evalResult = eval(operation)
+          setDisplay(evalResult.toString())
+          setResult(evalResult.toString())
+          setOperation(evalResult.toString() + value)
+        } catch (error) {
+          setDisplay('ERROR')
+          setResult('')
+          setOperation('')
+        }
+      } else {
+        setOperation(operation + value)
       }
-      setOperation((prevOperation) => prevOperation + value);
+      setShouldClear(true)
+    } else {
+      if (shouldClear) {
+        setDisplay(value);
+        setOperation(operation + value)
+        setShouldClear(false)
+      } else {
+        if (display.length >= 9) {
+          return;
+        }
+        setDisplay((prevDisplay) => prevDisplay + value)
+        setOperation((prevOperation) => prevOperation + value)
+      }
     }
-  };
+  }
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg">
       <input
         type="text"
         className="w-full mb-2 text-3xl border-b-2 border-gray-400 focus:outline-none"
-        value={operation}
+        value={display}
         readOnly
       />
       <input
@@ -49,7 +80,7 @@ const Calculator: React.FC = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Calculator;
+export default Calculator
